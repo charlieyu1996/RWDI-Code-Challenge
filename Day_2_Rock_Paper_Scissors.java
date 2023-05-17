@@ -1,47 +1,92 @@
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.io.*;
 
 public class Day_2_Rock_Paper_Scissors {
-    static Map<String, Integer> rockPaperScissorScore = new HashMap<>();
-    
-    public static void initMap(){
-        rockPaperScissorScore.put("A",1);
-        rockPaperScissorScore.put("B",2);
-        rockPaperScissorScore.put("C",3);
-        rockPaperScissorScore.put("X",1);
-        rockPaperScissorScore.put("Y",2);
-        rockPaperScissorScore.put("Z",3);
+    static final int rock = 1;
+    static final int paper = 2;
+    static final int scissor = 3;
+
+    static final int lose = 0;
+    static final int draw = 3;
+    static final int win = 6;
+
+
+    public static int calculateScoreHelper(String p1, String p2){
+        if (p1.equals("A")){
+            if (p2.equals("X")){
+                return rock + draw;
+            }else if (p2.equals("Y")){
+                return paper + win;
+            }else{
+                return scissor;
+            }
+        }else if (p1.equals("B")){
+            if (p2.equals("X")){
+                return rock;
+            }else if (p2.equals("Y")){
+                return paper + draw;
+            }else{
+                return scissor + win;
+            }
+        } else{
+            if (p2.equals("X")){
+                return rock + win;
+            }else if (p2.equals("Y")){
+                return paper;
+            }else{
+                return scissor + draw;
+            }
+        }
     }
 
 
     public static int calculateScore(ArrayList<String[]> input){
         int score = 0;
         for (String[] currRound : input){
-            score += rockPaperScissorScore.get(currRound[1]);
-            if (currRound[0].equals("A")){
-                if (currRound[1].equals("X")){
-                    score += 3;
-                }else if (currRound[1].equals("Y")){
-                    score += 6;
-                }
-            }else if (currRound[0].equals("B")){
-                if (currRound[1].equals("Y")){
-                    score += 3;
-                }else if (currRound[1].equals("Z")){
-                    score += 6;
-                }
-            }else if (currRound[0].equals("C")){
-                if (currRound[1].equals("Z")){
-                    score += 3;
-                }else if (currRound[1].equals("X")){
-                    score += 6;
-                }
-            }
+            score += calculateScoreHelper(currRound[0], currRound[1]);
         }
         return score;
     }
+
+    public static int calculateScoreHelperPart2(String p1, String result){
+        if (p1.equals("A")){
+            if (result.equals("X")){
+                return scissor;
+            }else if (result.equals("Y")){
+                return rock + draw;
+            }else{
+                return paper + win;
+            }
+        }else if (p1.equals("B")){
+            if (result.equals("X")){
+                return rock;
+            }else if (result.equals("Y")){
+                return paper + draw;
+            }else{
+                return scissor + win;
+            }
+        } else{
+            if (result.equals("X")){
+                return paper;
+            }else if (result.equals("Y")){
+                return scissor + draw;
+            }else{
+                return rock + win;
+            }
+        }
+    }
+
+
+    public static int calculateScorePart2(ArrayList<String[]> input){
+        int score = 0;
+
+        for (String[] currRound : input){
+            score += calculateScoreHelper(currRound[0], currRound[1]);
+        }
+
+        return score;
+    }
+
     
     public static void main(String[] args){
         try {
@@ -61,8 +106,7 @@ public class Day_2_Rock_Paper_Scissors {
                 completeArray.add(split);
             }
 
-            initMap();
-            System.out.println(calculateScore(completeArray));
+            System.out.println(calculateScorePart2(completeArray));
 
         } catch (FileNotFoundException e) {
             System.out.println("Exception: " + args[0] + " not found");
