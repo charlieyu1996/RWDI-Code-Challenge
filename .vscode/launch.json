@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Day_5_Supply_Stacks",
+            "request": "launch",
+            "mainClass": "Day_5_Supply_Stacks",
+            "projectName": "RWDI Code Challenge_3cbefd3c"
+        },
+        {
+            "type": "java",
             "name": "Day_3_Rucksack_Reorganization",
             "request": "launch",
             "mainClass": "Day_3_Rucksack_Reorganization",
