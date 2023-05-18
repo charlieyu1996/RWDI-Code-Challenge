@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.HashMap;
 
 public class Day_6_Tuning_Trouble {
-    public static int getFirstMarker(String signal){
+    public static int getFirstMarker(String signal, int length){
         HashMap<Character, Integer> memo = new HashMap<>();
 
         int startPointer = 0;
@@ -18,7 +18,7 @@ public class Day_6_Tuning_Trouble {
                 // the character is not a duplicate
 
                 // found a unique sequence
-                if (i - startPointer >= 3) return i+1;
+                if (i - startPointer >= length-1) return i+1;
                 memo.put(currChar, i);
             }
         }
@@ -40,7 +40,7 @@ public class Day_6_Tuning_Trouble {
             String line;
 
             while((line=br.readLine())!=null){
-                System.out.println(getFirstMarker(line));
+                System.out.println(getFirstMarker(line, 14));
             }
 
 
