@@ -55,13 +55,34 @@ public class Day_7_No_Space_Left_On_Device {
     // calculate the total size of directories that are less than equal to limit
     public static int sumOfFileSize(TreeNode node, int limit){
         int totalSum = 0;
-        if (node.fileSize <= limit && node.dirChildren != null) totalSum+=node.fileSize;
         if (node.dirChildren != null){
+            if (node.fileSize <= limit) totalSum+=node.fileSize;
             for (HashMap.Entry<String, TreeNode> entry : node.dirChildren.entrySet()){
                 totalSum += sumOfFileSize(entry.getValue(), limit);
             }
         }
         return totalSum;
+    }
+
+
+    // helper recursion method to find the smallest directory size to delete
+    public static int findSmallestDirToDeleteRec(TreeNode node, int spaceNeeded){
+        int bestDirForNow = Integer.MAX_VALUE;
+        if (node.dirChildren != null && node.fileSize >= spaceNeeded){
+            // if it is a directory and the size of the directory is greater than equal to the space needed
+            bestDirForNow = node.fileSize;
+            for (HashMap.Entry<String, TreeNode> entry : node.dirChildren.entrySet()){
+                bestDirForNow = Math.min(findSmallestDirToDeleteRec(entry.getValue(), spaceNeeded), bestDirForNow);
+            }
+        }
+        return bestDirForNow;
+    }
+
+    // find the smallest directory size to delete
+    public static int findSmallestDirToDelete(TreeNode node, int totalDiskSpace, int updateSpaceNeeded){
+        // calculate how much space is needed to delete
+        int spaceNeeded = updateSpaceNeeded - (totalDiskSpace - node.fileSize) ;
+        return findSmallestDirToDeleteRec(node, spaceNeeded);
     }
 
 
@@ -117,8 +138,8 @@ public class Day_7_No_Space_Left_On_Device {
             }
 
             calculateFileSizeSum(root);
-            
-            System.out.println(sumOfFileSize(root, 100000));
+            System.out.println(findSmallestDirToDelete(root, 70000000, 30000000));
+            // System.out.println(sumOfFileSize(root, 100000));
 
         } catch (FileNotFoundException e) {
             System.out.println("Exception: " + args[0] + " not found");
