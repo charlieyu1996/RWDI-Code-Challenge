@@ -86,11 +86,35 @@ public class Day_7_No_Space_Left_On_Device {
     }
 
 
-    public static void main(String args[]){
+    // Example input:
+    // $ cd /
+    // $ ls
+    // dir a
+    // 14848514 b.txt
+    // 8504156 c.dat
+    // dir d
+    // $ cd a
+    // $ ls
+    // dir e
+    // 29116 f
+    // 2557 g
+    // 62596 h.lst
+    // $ cd e
+    // $ ls
+    // 584 i
+    // $ cd ..
+    // $ cd ..
+    // $ cd d
+    // $ ls
+    // 4060174 j
+    // 8033020 d.log
+    // 5626152 d.ext
+    // 7214296 k
+    // 
+    // totalDiskSpace = the size of the disk space
+    //  updateSpaceNeeded = the size needed to update
+    public static void parseInput(String fileName, int totalDiskSpace, int updateSpaceNeeded){
         try {
-            // example input: "Day_2_input.txt"
-            String fileName = args[0];
-
             File file = new File(fileName);
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
@@ -137,18 +161,15 @@ public class Day_7_No_Space_Left_On_Device {
                 }
             }
 
-            calculateFileSizeSum(root);
-            System.out.println(findSmallestDirToDelete(root, 70000000, 30000000));
+            calculateFileSizeSum(root); // update the directory tree with total size for each directory
+            System.out.println(findSmallestDirToDelete(root, totalDiskSpace, updateSpaceNeeded));
             // System.out.println(sumOfFileSize(root, 100000));
 
         } catch (FileNotFoundException e) {
-            System.out.println("Exception: " + args[0] + " not found");
+            System.out.println("Exception: " + fileName + " not found");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
-
 }

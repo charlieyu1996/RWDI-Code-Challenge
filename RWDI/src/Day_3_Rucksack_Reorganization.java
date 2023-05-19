@@ -78,12 +78,8 @@ public class Day_3_Rucksack_Reorganization {
         return sum;
     }
 
-
-    public static void main(String args[]){
+    public static void parseInput(String fileName){
         try {
-            // example input: "Day_2_input.txt"
-            String fileName = args[0];
-
             File file = new File(fileName);
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
@@ -99,7 +95,7 @@ public class Day_3_Rucksack_Reorganization {
             System.out.println(calculateBadge(completeArray));
 
         } catch (FileNotFoundException e) {
-            System.out.println("Exception: " + args[0] + " not found");
+            System.out.println("Exception: " + fileName + " not found");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();

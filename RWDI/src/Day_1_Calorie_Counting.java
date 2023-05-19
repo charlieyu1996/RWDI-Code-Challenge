@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
-class Day_1_Calorie_Counting {
+public class Day_1_Calorie_Counting {
 
     // returns the top N calories from the list of calories
     public static int getMostCalories(ArrayList<ArrayList<Integer>> elfCalories, int topN){
@@ -31,14 +31,25 @@ class Day_1_Calorie_Counting {
         return currMax;
     }
 
-    public static void main(String[] args){
+
+    // example input:
+    // 1000
+    // 2000
+    // 3000
+
+    // 4000
+
+    // 5000
+    // 6000
+
+    // 7000
+    // 8000
+    // 9000
+
+    // 10000
+    // topN represents the top N of Elves carrying the most Calories
+    public static void parseInput(String fileName, int topN){
         try {
-            // example input: "Day_1_input.txt"
-            String fileName = args[0];
-
-            // example input: 3
-            int topN = Integer.parseInt(args[1]);
-
             File file = new File(fileName);
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
@@ -50,6 +61,7 @@ class Day_1_Calorie_Counting {
             ArrayList<ArrayList<Integer>> completeArray = new ArrayList<>();
             while((line=br.readLine())!=null){
                 if (line.equals("")){
+                    // if the line is empty, it is a new Elf
                     completeArray.add(currArray);
                     currArray = new ArrayList<>();
                 }else{
@@ -65,7 +77,7 @@ class Day_1_Calorie_Counting {
             System.out.println(getMostCalories(completeArray, topN));
 
         } catch (FileNotFoundException e) {
-            System.out.println("Exception: " + args[0] + " not found");
+            System.out.println("Exception: " + fileName + " not found");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();

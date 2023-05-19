@@ -6,6 +6,17 @@
     "configurations": [
         {
             "type": "java",
+            "name": "AdventofCode2022",
+            "request": "launch",
+            "mainClass": "AdventofCode2022",
+            "projectName": "RWDI Code Challenge_3cbefd3c",
+            "args" :[
+                "1",
+                "C:\\Users\\charl\\OneDrive\\Documents\\RWDI Code Challenge\\RWDI\\InputFiles\\Day_1_input.txt" 
+            ]
+        },
+        {
+            "type": "java",
             "name": "Day_5_Supply_Stacks",
             "request": "launch",
             "mainClass": "Day_5_Supply_Stacks",

@@ -11,6 +11,9 @@ public class Day_2_Rock_Paper_Scissors {
     static final int win = 6;
 
 
+    // Helper mmethod that fives the score for one round
+    // p1 = {what player one played}
+    // p2 = {whaat player two played}
     public static int calculateScoreHelper(String p1, String p2){
         if (p1.equals("A")){
             if (p2.equals("X")){
@@ -48,6 +51,9 @@ public class Day_2_Rock_Paper_Scissors {
         return score;
     }
 
+    // Helper method that gives the score for one round
+    // p1 = {what player one played}
+    // result = {the result the player needs to get}
     public static int calculateScoreHelperPart2(String p1, String result){
         if (p1.equals("A")){
             if (result.equals("X")){
@@ -87,12 +93,13 @@ public class Day_2_Rock_Paper_Scissors {
         return score;
     }
 
-    
-    public static void main(String[] args){
-        try {
-            // example input: "Day_2_input.txt"
-            String fileName = args[0];
 
+    // example input:
+    // A Y
+    // B X
+    // C Z
+    public static void parseInput(String fileName){
+        try {
             File file = new File(fileName);
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
@@ -109,11 +116,10 @@ public class Day_2_Rock_Paper_Scissors {
             System.out.println(calculateScorePart2(completeArray));
 
         } catch (FileNotFoundException e) {
-            System.out.println("Exception: " + args[0] + " not found");
+            System.out.println("Exception: " + fileName + " not found");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }

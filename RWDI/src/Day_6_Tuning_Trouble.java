@@ -2,6 +2,8 @@ import java.io.*;
 import java.util.HashMap;
 
 public class Day_6_Tuning_Trouble {
+
+    // find the first ${length} length unique sequence from ${signal}
     public static int getFirstMarker(String signal, int length){
         HashMap<Character, Integer> memo = new HashMap<>();
 
@@ -26,12 +28,10 @@ public class Day_6_Tuning_Trouble {
         return -1;
     }
 
-
-    public static void main(String args[]){
+    // Example input:
+    // mjqjpqmgbljsphdztnvjfqwrcgsmlb
+    public static void parseInput(String fileName, int length){
         try {
-            // example input: "Day_2_input.txt"
-            String fileName = args[0];
-
             File file = new File(fileName);
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
@@ -40,12 +40,10 @@ public class Day_6_Tuning_Trouble {
             String line;
 
             while((line=br.readLine())!=null){
-                System.out.println(getFirstMarker(line, 14));
+                System.out.println(getFirstMarker(line, length));
             }
-
-
         } catch (FileNotFoundException e) {
-            System.out.println("Exception: " + args[0] + " not found");
+            System.out.println("Exception: " + fileName + " not found");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();

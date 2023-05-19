@@ -71,11 +71,18 @@ public class Day_5_Supply_Stacks {
     }
 
 
-    public static void main(String args[]){
-        try {
-            // example input: "Day_5_input.txt"
-            String fileName = args[0];
+    // example input
+    //     [D]    
+    // [N] [C]    
+    // [Z] [M] [P]
+    //  1   2   3 
 
+    // move 1 from 2 to 1
+    // move 3 from 1 to 3
+    // move 2 from 2 to 1
+    // move 1 from 1 to 2
+    public static void parseInput(String fileName){
+        try {
             File file = new File(fileName);
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
@@ -126,7 +133,7 @@ public class Day_5_Supply_Stacks {
             System.out.println(crateMover9001(stacks, instructions));
 
         } catch (FileNotFoundException e) {
-            System.out.println("Exception: " + args[0] + " not found");
+            System.out.println("Exception: " + fileName + " not found");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();

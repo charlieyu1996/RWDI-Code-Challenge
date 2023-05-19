@@ -3,6 +3,8 @@ import java.io.*;
 
 
 public class Day_4_Camp_Cleanup {
+
+    // find the number of pairs where one pair fully overlaps another
     public static int getFullOverlapPairs(ArrayList<String[][]> pairs){
         int counter = 0;
         for (String[][] currPair : pairs){
@@ -23,6 +25,7 @@ public class Day_4_Camp_Cleanup {
     }
 
 
+    // find the number of pairs where the pairs overlap each other
     public static int getOverlapPairs(ArrayList<String[][]> pairs){
         int counter = 0;
 
@@ -48,12 +51,15 @@ public class Day_4_Camp_Cleanup {
         return counter;
     }
 
-
-    public static void main(String args[]){
+    // example input:
+    // 2-4,6-8
+    // 2-3,4-5
+    // 5-7,7-9
+    // 2-8,3-7
+    // 6-6,4-6
+    // 2-6,4-8
+    public static void parseInput(String fileName){
         try {
-            // example input: "Day_2_input.txt"
-            String fileName = args[0];
-
             File file = new File(fileName);
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
@@ -73,7 +79,7 @@ public class Day_4_Camp_Cleanup {
             System.out.println(getOverlapPairs(completeArray));
 
         } catch (FileNotFoundException e) {
-            System.out.println("Exception: " + args[0] + " not found");
+            System.out.println("Exception: " + fileName + " not found");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
