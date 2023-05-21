@@ -3,7 +3,7 @@ public class AdventofCode2022 {
     public static void main(String args[]) {
         if (args.length != 2) {
             System.out.println(
-                    "Incorrect arguments, please enter the day number for the question followed by a space, then the input text file. (e.g. 1 Day_1_input.txt)");
+                    "Incorrect arguments, please enter the day number for the question followed by a space, then the input text file. (e.g. 1 C:\\user\\Day_1_input.txt)");
         } else {
             if (args[0].equals("1")) {
                 Day_1_Calorie_Counting.parseInput(args[1], 3);

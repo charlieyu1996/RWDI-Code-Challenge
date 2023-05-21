@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 
 public class Day_3_Rucksack_Reorganization {
@@ -78,6 +79,56 @@ public class Day_3_Rucksack_Reorganization {
         return sum;
     }
 
+
+
+    // NEW IMPLEMENTATION------------------------------------------------
+    // fill in the characterList for the first run, and compare with currString to find duplicates
+    public static boolean[] fillCharacterListFromString(String currString, boolean[] characterList, boolean firstRun){
+        boolean[] tempCharacterList = new boolean[53];
+        for (int i = 0; i < currString.length(); i++){
+            int priorityNumber = convertCharactertoNum(currString.charAt(i));
+            if (!firstRun && characterList[priorityNumber]){
+                // there is a duplicate
+                tempCharacterList[priorityNumber] = true;
+            }else{
+                // for the first run, fill in the characterList
+                characterList[priorityNumber] = true;
+            }
+        }
+        return tempCharacterList;
+    }
+
+    // traverse through the boolean and calculate priority if true
+    public static int calculatePrioritySum(boolean[] characterList){
+        int sum = 0;
+        for (int i = 0; i < characterList.length; i++){
+            sum += characterList[i] ? i : 0; 
+        }
+        return sum;
+    }
+
+    // calculate a common item among 3 rucksacks and return the sum of the common items
+    public static int calculateBadgeSum(ArrayList<String> rucksacks){
+        int sum = 0;
+        int counter = 0;
+        int arraySize = rucksacks.size();
+        while (counter + 3 <= arraySize){
+            boolean[] characterList = new boolean[53];
+            boolean firstRun = true;
+            for (int i = 0; i < 3; i++){
+                boolean[] tempCharacterList = fillCharacterListFromString(rucksacks.get(counter), characterList, firstRun);
+                if (!firstRun)
+                    characterList = tempCharacterList;
+                counter++;
+                firstRun = false;
+            }
+            sum += calculatePrioritySum(characterList);
+        }
+        return sum;
+    }
+
+    // Example input:
+    // vJrwpWtwJgWrhcsFMMfFFhFp
     public static void parseInput(String fileName){
         try {
             File file = new File(fileName);
@@ -92,7 +143,8 @@ public class Day_3_Rucksack_Reorganization {
                 completeArray.add(line);
             }
 
-            System.out.println(calculateBadge(completeArray));
+            // System.out.println(calculateBadge(completeArray));
+            System.out.println(calculateBadgeSum(completeArray));
 
         } catch (FileNotFoundException e) {
             System.out.println("Exception: " + fileName + " not found");

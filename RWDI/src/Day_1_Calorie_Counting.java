@@ -5,6 +5,7 @@ import java.util.PriorityQueue;
 public class Day_1_Calorie_Counting {
 
     // returns the top N calories from the list of calories
+    // Runtime: O(n) where n is the length of the calorie list
     public static int getMostCalories(ArrayList<ArrayList<Integer>> elfCalories, int topN){
         int currMax = 0;
         // Create a PriorityQueue that sorts in ascending order
@@ -18,9 +19,8 @@ public class Day_1_Calorie_Counting {
 
             // offer the value to pq first, and remove the smallest number if over capacity
             pq.offer(total);
-            if (pq.size() > topN){
+            if (pq.size() > topN)
                 pq.poll();
-            }
         }
         
         for (Integer i : pq){
@@ -70,9 +70,8 @@ public class Day_1_Calorie_Counting {
                 }
             }
 
-            if (currArray.size() > 0){
+            if (currArray.size() > 0)
                 completeArray.add(currArray);
-            }
 
             System.out.println(getMostCalories(completeArray, topN));
 
