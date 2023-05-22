@@ -1,14 +1,11 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 
-public class Day_3_Rucksack_Reorganization {
-
-
-    final static int characterSize = 53;
+public class Day_3_Rucksack_Reorganization implements PuzzleInterface{
+    final int characterSize = 53;
 
     // convert the current character (a-z, A-Z) to a priority number
-    public static int convertCharactertoNum(Character c){
+    public int convertCharactertoNum(Character c){
         if (c >= 97 && c <= 122){
             return c - 96;
         }else if (c >= 65 && c <= 90){
@@ -17,82 +14,15 @@ public class Day_3_Rucksack_Reorganization {
         return 0;
     }
 
-    // populate a HashSet of characters from a string
-    public static HashSet<Character> fillInHashSet(String s){
-        HashSet<Character> items = new HashSet<>();
-        for (int i = 0; i < s.length(); i++){
-            items.add(s.charAt(i));
-        }
-
-        return items;
-    }
-
-    //  merge duplicate characters among the HashSet and string
-    public static HashSet<Character> compareHashString(HashSet<Character> items, String s){
-        HashSet<Character> sharedItems = new HashSet<>();
-        for (int i = 0; i < s.length(); i++){
-            if (items.contains(s.charAt(i))){
-                sharedItems.add(s.charAt(i));
-            }
-        }
-        return sharedItems;
-    }
-
-    // find the first occuring duplicate in the HashSet from the string
-    public static Character firstDuplicate(HashSet<Character> items, String s){
-        for (int i = 0; i < s.length(); i++){
-            if (items.contains(s.charAt(i))){
-                return s.charAt(i);
-            }
-        }
-        return '0';
-    }
-
-    // calculate the sum of duplicated items in a rucksack
-    public static int calculatePriority(ArrayList<String> rucksacks){
-        int sum = 0;
-
-        for (String currSack : rucksacks){
-            int halfLength = currSack.length() / 2;
-            HashSet<Character> items = fillInHashSet(currSack.substring(0, halfLength));
-
-            for (int i = halfLength; i < currSack.length(); i++){
-                if (items.contains(currSack.charAt(i))){
-                    sum += convertCharactertoNum(currSack.charAt(i));
-                    break;
-                }
-            }
-        }
-        return sum;
-    }
-
-    // calculate a common item among 3 rucksacks and return the sum of the common items
-    public static int calculateBadge(ArrayList<String> rucksacks){
-        int sum = 0;
-        int counter = 0;
-        int arraySize = rucksacks.size();
-        while (counter + 3 <= arraySize){            
-            HashSet<Character> items1 = fillInHashSet(rucksacks.get(counter));
-            HashSet<Character> items2 = compareHashString(items1, rucksacks.get(++counter));
-            sum += convertCharactertoNum(firstDuplicate(items2, rucksacks.get(++counter)));
-            counter++;
-        }
-
-        return sum;
-    }
-
-
-
-    // NEW IMPLEMENTATION------------------------------------------------
     // fill in the characterList for the first run, and compare with currString to find duplicates
-    public static boolean[] fillCharacterListFromString(String currString, boolean[] characterList, boolean firstRun){
+    public boolean[] fillCharacterListFromString(String currString, boolean[] characterList, boolean firstRun){
         boolean[] tempCharacterList = new boolean[characterSize];
         for (int i = 0; i < currString.length(); i++){
             int priorityNumber = convertCharactertoNum(currString.charAt(i));
             if (!firstRun && characterList[priorityNumber]){
                 // there is a duplicate
                 tempCharacterList[priorityNumber] = true;
-            }else{
+            }else if (firstRun){
                 // for the first run, fill in the characterList
                 characterList[priorityNumber] = true;
             }
@@ -101,7 +31,7 @@ public class Day_3_Rucksack_Reorganization {
     }
 
     // traverse through the boolean and calculate priority if true
-    public static int calculatePrioritySum(boolean[] characterList){
+    public int calculatePrioritySum(boolean[] characterList){
         int sum = 0;
         for (int i = 0; i < characterList.length; i++){
             sum += characterList[i] ? i : 0; 
@@ -111,7 +41,7 @@ public class Day_3_Rucksack_Reorganization {
 
     // calculate a common item among 3 rucksacks and return the sum of the common items
     // Runtime: O(mn) where n is the number of rucksacks and m is the average length of a rucksack
-    public static int calculateBadgeSum(ArrayList<String> rucksacks, int groupSize){
+    public int calculateBadgeSum(ArrayList<String> rucksacks, int groupSize){
         int sum = 0;
         int counter = 0;
         int arraySize = rucksacks.size();
@@ -130,30 +60,50 @@ public class Day_3_Rucksack_Reorganization {
         return sum;
     }
 
+    // compares the first half of a rucksack and the other half of a rucksack to find a shared item character
+    public int calculateBadgePrio(ArrayList<String> rucksacks){
+        int sum = 0;
+        for (String currSack : rucksacks){
+            int halfLength = currSack.length() / 2;
+            boolean[] characterList = new boolean[characterSize];
+            fillCharacterListFromString(currSack.substring(0, halfLength), characterList, true);
+            characterList = fillCharacterListFromString(currSack.substring(halfLength, currSack.length()), characterList, false);
+            sum += calculatePrioritySum(characterList);
+        }
+        return sum;
+    }
+
     // Example input:
     // vJrwpWtwJgWrhcsFMMfFFhFp
-    public static void parseInput(String fileName, int groupSize){
+    public ArrayList<String> parseInput(String fileName){
+        ArrayList<String> completeArray = new ArrayList<>();
         try {
             File file = new File(fileName);
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
-            StringBuffer sb = new StringBuffer();
-
             String line;
 
-            ArrayList<String> completeArray = new ArrayList<>();
             while((line=br.readLine())!=null){
                 completeArray.add(line);
             }
-
-            // System.out.println(calculateBadge(completeArray));
-            System.out.println(calculateBadgeSum(completeArray, groupSize));
-
         } catch (FileNotFoundException e) {
             System.out.println("Exception: " + fileName + " not found");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return completeArray;
+    }
+
+    @Override
+    public void printPart1(String fileName) {
+        ArrayList<String> completeArray = parseInput(fileName);
+        System.out.println(calculateBadgePrio(completeArray));
+    }
+
+    @Override
+    public void printPart2(String fileName) {
+        ArrayList<String> completeArray = parseInput(fileName);
+        System.out.println(calculateBadgeSum(completeArray, 3));
     }
 }

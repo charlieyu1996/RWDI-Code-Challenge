@@ -3,12 +3,12 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.io.*;
 
-public class Day_5_Supply_Stacks {
-    static final int stackSize = 4;
+public class Day_5_Supply_Stacks implements PuzzleInterface{
+    final int stackSize = 4;
 
     // instructions: first index = quantity, second index = from stack number, third index = to stack number
     // this method moves crates one at a time, reversing the stack when moving
-    public static String topCrate(ArrayList<Deque<Character>> stacks, ArrayList<String[]> instructions){
+    public String topCrate(ArrayList<Deque<Character>> stacks, ArrayList<String[]> instructions){
         StringBuilder sb = new StringBuilder();
         for (String[] currInstruction : instructions){
             Integer quantity = Integer.parseInt(currInstruction[0]);
@@ -30,7 +30,7 @@ public class Day_5_Supply_Stacks {
     }
 
     // generate a list of stacks given the size
-    public static ArrayList<Deque<Character>> generateStacks(int size){
+    public ArrayList<Deque<Character>> generateStacks(int size){
         ArrayList<Deque<Character>> stack = new ArrayList<>();
         for(int i = 0; i < size; i++){
             stack.add(new ArrayDeque<Character>());
@@ -41,7 +41,7 @@ public class Day_5_Supply_Stacks {
 
     // instructions: first index = quantity, second index = from stack number, third index = to stack number
     // this method moves crates together and keeps the stack order
-    public static String crateMover9001(ArrayList<Deque<Character>> stacks, ArrayList<String[]> instructions){
+    public String crateMover9001(ArrayList<Deque<Character>> stacks, ArrayList<String[]> instructions){
         StringBuilder sb = new StringBuilder();
 
         for (String[] currInstruction : instructions){
@@ -82,13 +82,11 @@ public class Day_5_Supply_Stacks {
     // move 3 from 1 to 3
     // move 2 from 2 to 1
     // move 1 from 1 to 2
-    public static void parseInput(String fileName){
+    public void parseInput(String fileName, int partNum){
         try {
             File file = new File(fileName);
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
-            StringBuffer sb = new StringBuffer();
-
             String line;
 
             ArrayList<String[]> instructions = new ArrayList<>();
@@ -135,7 +133,11 @@ public class Day_5_Supply_Stacks {
                 }
             }
 
-            System.out.println(crateMover9001(stacks, instructions));
+            if (partNum == 1){
+                System.out.println(topCrate(stacks, instructions));
+            }else if (partNum == 2){
+                System.out.println(crateMover9001(stacks, instructions));
+            }
 
         } catch (FileNotFoundException e) {
             System.out.println("Exception: " + fileName + " not found");
@@ -143,5 +145,15 @@ public class Day_5_Supply_Stacks {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void printPart1(String fileName) {
+        parseInput(fileName, 1);
+    }
+
+    @Override
+    public void printPart2(String fileName) {
+        parseInput(fileName, 2);
     }
 }

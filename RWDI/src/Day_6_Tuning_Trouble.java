@@ -1,10 +1,10 @@
 import java.io.*;
 import java.util.HashMap;
 
-public class Day_6_Tuning_Trouble {
+public class Day_6_Tuning_Trouble implements PuzzleInterface{
 
     // find the first ${length} length unique sequence from ${signal}, return -1 if not found
-    public static int getFirstMarker(String signal, int length){
+    public int getFirstMarker(String signal, int length){
         HashMap<Character, Integer> memo = new HashMap<>();
 
         int startPointer = 0;
@@ -30,7 +30,7 @@ public class Day_6_Tuning_Trouble {
 
     // Example input:
     // mjqjpqmgbljsphdztnvjfqwrcgsmlb
-    public static void parseInput(String fileName, int length){
+    public void parseInput(String fileName, int length){
         try {
             File file = new File(fileName);
             FileReader fr = new FileReader(file);
@@ -48,5 +48,15 @@ public class Day_6_Tuning_Trouble {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void printPart1(String fileName) {
+        parseInput(fileName, 4);
+    }
+
+    @Override
+    public void printPart2(String fileName) {
+        parseInput(fileName, 14);
     }
 }

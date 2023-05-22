@@ -2,11 +2,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.io.*;
 
-public class Day_7_No_Space_Left_On_Device {
+public class Day_7_No_Space_Left_On_Device implements  PuzzleInterface{
 
     // a tree structure that contains the file name, file size, a list of directories
     // and a list of files for the current directory (node)
-    public static class TreeNode {
+    public class TreeNode {
         String fileName;
         int fileSize;
         HashMap<String, TreeNode> dirChildren;
@@ -37,7 +37,7 @@ public class Day_7_No_Space_Left_On_Device {
     }
 
     // traverse through the file system and calculate total sum for each directory
-    public static int calculateFileSizeSum(TreeNode node){
+    public int calculateFileSizeSum(TreeNode node){
         int totalSize = 0;
         if (node.fileChildren != null){
             for (TreeNode currChildren : node.fileChildren){
@@ -55,7 +55,7 @@ public class Day_7_No_Space_Left_On_Device {
     }
 
     // calculate the total size of directories that are less than equal to limit
-    public static int sumOfFileSize(TreeNode node, int limit){
+    public int sumOfFileSize(TreeNode node, int limit){
         int totalSum = 0;
         if (node.dirChildren != null){
             if (node.fileSize <= limit) totalSum+=node.fileSize;
@@ -68,7 +68,7 @@ public class Day_7_No_Space_Left_On_Device {
 
 
     // helper recursion method to find the smallest directory size to delete
-    public static int findSmallestDirToDeleteRec(TreeNode node, int spaceNeeded){
+    public int findSmallestDirToDeleteRec(TreeNode node, int spaceNeeded){
         int bestDirForNow = Integer.MAX_VALUE;
         if (node.dirChildren != null && node.fileSize >= spaceNeeded){
             // if it is a directory and the size of the directory is greater than equal to the space needed
@@ -81,7 +81,7 @@ public class Day_7_No_Space_Left_On_Device {
     }
 
     // find the smallest directory size to delete
-    public static int findSmallestDirToDelete(TreeNode node, int totalDiskSpace, int updateSpaceNeeded){
+    public int findSmallestDirToDelete(TreeNode node, int totalDiskSpace, int updateSpaceNeeded){
         // calculate how much space is needed to delete
         int spaceNeeded = updateSpaceNeeded - (totalDiskSpace - node.fileSize) ;
         return findSmallestDirToDeleteRec(node, spaceNeeded);
@@ -115,16 +115,13 @@ public class Day_7_No_Space_Left_On_Device {
     // 
     // totalDiskSpace = the size of the disk space
     //  updateSpaceNeeded = the size needed to update
-    public static void parseInput(String fileName, int totalDiskSpace, int updateSpaceNeeded){
+    public TreeNode parseInput(String fileName){
+        TreeNode root = new TreeNode("/", 0, new HashMap<>(), new ArrayList<>(), null);
         try {
             File file = new File(fileName);
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
-            StringBuffer sb = new StringBuffer();
-
             String line;
-
-            TreeNode root = new TreeNode("/", 0, new HashMap<>(), new ArrayList<>(), null);
             TreeNode currParent = root;
             boolean listMode = false;
 
@@ -162,16 +159,27 @@ public class Day_7_No_Space_Left_On_Device {
                     listMode = false;
                 }
             }
-
-            calculateFileSizeSum(root); // update the directory tree with total size for each directory
-            System.out.println(findSmallestDirToDelete(root, totalDiskSpace, updateSpaceNeeded));
-            // System.out.println(sumOfFileSize(root, 100000));
-
         } catch (FileNotFoundException e) {
             System.out.println("Exception: " + fileName + " not found");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return root;
+    }
+
+    @Override
+    public void printPart1(String fileName) {
+        TreeNode root = parseInput(fileName);
+        calculateFileSizeSum(root); // update the directory tree with total size for each directory
+        System.out.println(sumOfFileSize(root, 100000));
+    }
+
+    @Override
+    public void printPart2(String fileName) {
+        TreeNode root = parseInput(fileName);
+        calculateFileSizeSum(root); // update the directory tree with total size for each directory
+        System.out.println(findSmallestDirToDelete(root, 70000000, 30000000));
     }
 }

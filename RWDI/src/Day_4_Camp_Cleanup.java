@@ -2,10 +2,10 @@ import java.util.ArrayList;
 import java.io.*;
 
 
-public class Day_4_Camp_Cleanup {
+public class Day_4_Camp_Cleanup implements PuzzleInterface{
 
     // find the number of pairs where one pair fully overlaps another
-    public static int getFullOverlapPairs(ArrayList<String[][]> pairs){
+    public int getFullOverlapPairs(ArrayList<String[][]> pairs){
         int counter = 0;
         for (String[][] currPair : pairs){
             int pair1Min = Integer.parseInt(currPair[0][0]);
@@ -26,7 +26,7 @@ public class Day_4_Camp_Cleanup {
 
 
     // find the number of pairs where the pairs overlap each other
-    public static int getOverlapPairs(ArrayList<String[][]> pairs){
+    public int getOverlapPairs(ArrayList<String[][]> pairs){
         int counter = 0;
 
         for (String[][] currPair : pairs){
@@ -58,16 +58,14 @@ public class Day_4_Camp_Cleanup {
     // 2-8,3-7
     // 6-6,4-6
     // 2-6,4-8
-    public static void parseInput(String fileName){
+    public ArrayList<String[][]> parseInput(String fileName){
+        ArrayList<String[][]> completeArray = new ArrayList<>();
         try {
             File file = new File(fileName);
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
-            StringBuffer sb = new StringBuffer();
-
             String line;
 
-            ArrayList<String[][]> completeArray = new ArrayList<>();
             while((line=br.readLine())!=null){
                 String[] currPair = line.split(",");
                 String[] pair1 = currPair[0].split("-");
@@ -75,14 +73,27 @@ public class Day_4_Camp_Cleanup {
                 String[][] splitCurrPair = new String[][]{pair1, pair2};
                 completeArray.add(splitCurrPair);
             }
-
-            System.out.println(getOverlapPairs(completeArray));
-
         } catch (FileNotFoundException e) {
             System.out.println("Exception: " + fileName + " not found");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return completeArray;
+    }
+
+
+    @Override
+    public void printPart1(String fileName) {
+        ArrayList<String[][]> completeArray =  parseInput(fileName);
+        System.out.println(getFullOverlapPairs(completeArray));
+
+    }
+
+
+    @Override
+    public void printPart2(String fileName) {
+        ArrayList<String[][]> completeArray =  parseInput(fileName);
+        System.out.println(getOverlapPairs(completeArray));
     }
 }
