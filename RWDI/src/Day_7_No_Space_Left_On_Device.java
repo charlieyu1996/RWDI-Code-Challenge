@@ -4,6 +4,8 @@ import java.io.*;
 
 public class Day_7_No_Space_Left_On_Device {
 
+    // a tree structure that contains the file name, file size, a list of directories
+    // and a list of files for the current directory (node)
     public static class TreeNode {
         String fileName;
         int fileSize;

@@ -10,7 +10,7 @@ public class AdventofCode2022 {
             } else if (args[0].equals("2")) {
                 Day_2_Rock_Paper_Scissors.parseInput(args[1]);
             } else if (args[0].equals("3")) {
-                Day_3_Rucksack_Reorganization.parseInput(args[1]);
+                Day_3_Rucksack_Reorganization.parseInput(args[1], 3);
             } else if (args[0].equals("4")) {
                 Day_4_Camp_Cleanup.parseInput(args[1]);
             } else if (args[0].equals("5")) {

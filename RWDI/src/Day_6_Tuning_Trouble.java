@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 public class Day_6_Tuning_Trouble {
 
-    // find the first ${length} length unique sequence from ${signal}
+    // find the first ${length} length unique sequence from ${signal}, return -1 if not found
     public static int getFirstMarker(String signal, int length){
         HashMap<Character, Integer> memo = new HashMap<>();
 

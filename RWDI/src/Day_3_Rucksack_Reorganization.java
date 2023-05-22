@@ -1,9 +1,11 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 
 public class Day_3_Rucksack_Reorganization {
+
+
+    final static int characterSize = 53;
 
     // convert the current character (a-z, A-Z) to a priority number
     public static int convertCharactertoNum(Character c){
@@ -84,7 +86,7 @@ public class Day_3_Rucksack_Reorganization {
     // NEW IMPLEMENTATION------------------------------------------------
     // fill in the characterList for the first run, and compare with currString to find duplicates
     public static boolean[] fillCharacterListFromString(String currString, boolean[] characterList, boolean firstRun){
-        boolean[] tempCharacterList = new boolean[53];
+        boolean[] tempCharacterList = new boolean[characterSize];
         for (int i = 0; i < currString.length(); i++){
             int priorityNumber = convertCharactertoNum(currString.charAt(i));
             if (!firstRun && characterList[priorityNumber]){
@@ -108,14 +110,15 @@ public class Day_3_Rucksack_Reorganization {
     }
 
     // calculate a common item among 3 rucksacks and return the sum of the common items
-    public static int calculateBadgeSum(ArrayList<String> rucksacks){
+    // Runtime: O(mn) where n is the number of rucksacks and m is the average length of a rucksack
+    public static int calculateBadgeSum(ArrayList<String> rucksacks, int groupSize){
         int sum = 0;
         int counter = 0;
         int arraySize = rucksacks.size();
-        while (counter + 3 <= arraySize){
-            boolean[] characterList = new boolean[53];
+        while (counter + groupSize <= arraySize){
+            boolean[] characterList = new boolean[characterSize];
             boolean firstRun = true;
-            for (int i = 0; i < 3; i++){
+            for (int i = 0; i < groupSize; i++){
                 boolean[] tempCharacterList = fillCharacterListFromString(rucksacks.get(counter), characterList, firstRun);
                 if (!firstRun)
                     characterList = tempCharacterList;
@@ -129,7 +132,7 @@ public class Day_3_Rucksack_Reorganization {
 
     // Example input:
     // vJrwpWtwJgWrhcsFMMfFFhFp
-    public static void parseInput(String fileName){
+    public static void parseInput(String fileName, int groupSize){
         try {
             File file = new File(fileName);
             FileReader fr = new FileReader(file);
@@ -144,7 +147,7 @@ public class Day_3_Rucksack_Reorganization {
             }
 
             // System.out.println(calculateBadge(completeArray));
-            System.out.println(calculateBadgeSum(completeArray));
+            System.out.println(calculateBadgeSum(completeArray, groupSize));
 
         } catch (FileNotFoundException e) {
             System.out.println("Exception: " + fileName + " not found");

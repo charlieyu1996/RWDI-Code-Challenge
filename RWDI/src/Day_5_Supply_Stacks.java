@@ -29,6 +29,7 @@ public class Day_5_Supply_Stacks {
         return sb.toString();
     }
 
+    // generate a list of stacks given the size
     public static ArrayList<Deque<Character>> generateStacks(int size){
         ArrayList<Deque<Character>> stack = new ArrayList<>();
         for(int i = 0; i < size; i++){
@@ -98,14 +99,17 @@ public class Day_5_Supply_Stacks {
             int numberOfStacks = 0;
             while((line=br.readLine())!=null){
                 if (firstLine){
+                    // use the first line to calculate the number of stacks
                     numberOfStacks = (line.length()+1) / stackSize;
                     stacks = generateStacks(numberOfStacks);
                     firstLine = false;
                 }
 
                 if (line.equals("")){
+                    // if the line is empty, the next following line must be the instructions
                     instructionStart = true;
                 }else if (!instructionStart){
+                    // parse the stack
                     int index = 0;
                     int counter = 0;
                     int i = 0; 
@@ -124,6 +128,7 @@ public class Day_5_Supply_Stacks {
                         }
                     }
                 }else if (instructionStart){
+                    // start parsing the instructions
                     String[] splitLine = line.split("\\s+");
                     String[] currInstruction = new String[]{splitLine[1], splitLine[3], splitLine[5]};
                     instructions.add(currInstruction);
