@@ -5,14 +5,14 @@ public class Day_6_Tuning_Trouble implements PuzzleInterface{
 
     // find the first ${length} length unique sequence from ${signal}, return -1 if not found
     public int getFirstMarker(String signal, int length){
-        HashMap<Character, Integer> memo = new HashMap<>();
+        HashMap<Character, Integer> memo = new HashMap<>(); // key: the character, value: the nearest index in the string from the iterator of the same character
 
         int startPointer = 0;
         for (int i = 0; i < signal.length(); i++){
             Character currChar = signal.charAt(i);
             if (memo.containsKey(currChar) && memo.get(currChar) + 1 > startPointer){
                 // make sure the new startPointer is strictly greater the previous startPointer
-                // it is a duplicate, set starting pointer to the previous duplicated charaacter index
+                // it is a duplicate, set starting pointer to the previous duplicated character index
                 startPointer = memo.get(currChar) + 1;
                 if (startPointer > signal.length()) return -1;
                 memo.put(currChar, i); // update the position of the character
@@ -35,8 +35,6 @@ public class Day_6_Tuning_Trouble implements PuzzleInterface{
             File file = new File(fileName);
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
-            StringBuffer sb = new StringBuffer();
-
             String line;
 
             while((line=br.readLine())!=null){
