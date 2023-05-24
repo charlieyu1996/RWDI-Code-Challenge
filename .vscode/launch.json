@@ -6,20 +6,13 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Day_8_Treetop_Tree_House",
-            "request": "launch",
-            "mainClass": "Day_8_Treetop_Tree_House",
-            "projectName": "RWDI Code Challenge_3cbefd3c"
-        },
-        {
-            "type": "java",
             "name": "AdventofCode2022",
             "request": "launch",
             "mainClass": "AdventofCode2022",
             "projectName": "RWDI Code Challenge_3cbefd3c",
             "args": [
-                "7",
-                "C:\\Users\\charl\\OneDrive\\Documents\\RWDI Code Challenge\\RWDI\\InputFiles\\Day_7_input2.txt"
+                "2",
+                "C:\\Users\\charl\\OneDrive\\Documents\\RWDI Code Challenge\\RWDI\\InputFiles\\Day_2_input2.txt"
             ]
         }
     ]

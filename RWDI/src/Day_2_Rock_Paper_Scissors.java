@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.io.*;
-import java.lang.reflect.Array;
 
 public class Day_2_Rock_Paper_Scissors implements PuzzleInterface{
     final int rock = 1;
@@ -44,7 +43,7 @@ public class Day_2_Rock_Paper_Scissors implements PuzzleInterface{
     }
 
 
-    public int calculateScore(ArrayList<String[]> input){
+    public int calculateScore(String[][] input){
         int score = 0;
         for (String[] currRound : input){
             score += calculateScoreHelper(currRound[0], currRound[1]);
@@ -84,7 +83,7 @@ public class Day_2_Rock_Paper_Scissors implements PuzzleInterface{
     }
 
 
-    public int calculateScorePart2(ArrayList<String[]> input){
+    public int calculateScorePart2(String[][] input){
         int score = 0;
 
         for (String[] currRound : input){
@@ -99,7 +98,7 @@ public class Day_2_Rock_Paper_Scissors implements PuzzleInterface{
     // A Y
     // B X
     // C Z
-    public ArrayList<String[]> parseInput(String fileName){
+    public String[][] parseInput(String fileName){
         ArrayList<String[]> completeArray = new ArrayList<>();
         try {
             File file = new File(fileName);
@@ -117,20 +116,21 @@ public class Day_2_Rock_Paper_Scissors implements PuzzleInterface{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return completeArray;
+
+        return completeArray.stream().map(k -> k).toArray(String[][]::new);
     }
 
 
     @Override
     public void printPart1(String fileName) {
-        ArrayList<String[]> completeArray = parseInput(fileName);
+        String[][] completeArray = parseInput(fileName);
         System.out.println(calculateScore(completeArray));
     }
 
 
     @Override
     public void printPart2(String fileName) {
-        ArrayList<String[]> completeArray = parseInput(fileName);
+        String[][] completeArray = parseInput(fileName);
         System.out.println(calculateScorePart2(completeArray));
     }
 }
