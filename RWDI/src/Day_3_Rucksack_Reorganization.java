@@ -41,15 +41,15 @@ public class Day_3_Rucksack_Reorganization implements PuzzleInterface{
 
     // calculate a common item among 3 rucksacks and return the sum of the common items
     // Runtime: O(mn) where n is the number of rucksacks and m is the average length of a rucksack
-    public int calculateBadgeSum(ArrayList<String> rucksacks, int groupSize){
+    public int calculateBadgeSum(String[] rucksacks, int groupSize){
         int sum = 0;
         int counter = 0;
-        int arraySize = rucksacks.size();
+        int arraySize = rucksacks.length;
         while (counter + groupSize <= arraySize){
             boolean[] characterList = new boolean[characterSize];
             boolean firstRun = true;
             for (int i = 0; i < groupSize; i++){
-                boolean[] tempCharacterList = fillCharacterListFromString(rucksacks.get(counter), characterList, firstRun);
+                boolean[] tempCharacterList = fillCharacterListFromString(rucksacks[counter], characterList, firstRun);
                 if (!firstRun)
                     characterList = tempCharacterList;
                 counter++;
@@ -61,7 +61,7 @@ public class Day_3_Rucksack_Reorganization implements PuzzleInterface{
     }
 
     // compares the first half of a rucksack and the other half of a rucksack to find a shared item character
-    public int calculateBadgePrio(ArrayList<String> rucksacks){
+    public int calculateBadgePrio(String[] rucksacks){
         int sum = 0;
         for (String currSack : rucksacks){
             int halfLength = currSack.length() / 2;
@@ -75,7 +75,7 @@ public class Day_3_Rucksack_Reorganization implements PuzzleInterface{
 
     // Example input:
     // vJrwpWtwJgWrhcsFMMfFFhFp
-    public ArrayList<String> parseInput(String fileName){
+    public String[] parseInput(String fileName){
         ArrayList<String> completeArray = new ArrayList<>();
         try {
             File file = new File(fileName);
@@ -92,18 +92,19 @@ public class Day_3_Rucksack_Reorganization implements PuzzleInterface{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return completeArray;
+
+        return completeArray.toArray(String[]::new);
     }
 
     @Override
     public void printPart1(String fileName) {
-        ArrayList<String> completeArray = parseInput(fileName);
+        String[] completeArray = parseInput(fileName);
         System.out.println(calculateBadgePrio(completeArray));
     }
 
     @Override
     public void printPart2(String fileName) {
-        ArrayList<String> completeArray = parseInput(fileName);
+        String[] completeArray = parseInput(fileName);
         System.out.println(calculateBadgeSum(completeArray, 3));
     }
 }

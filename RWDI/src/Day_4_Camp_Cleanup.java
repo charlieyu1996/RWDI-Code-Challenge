@@ -5,7 +5,7 @@ import java.io.*;
 public class Day_4_Camp_Cleanup implements PuzzleInterface{
 
     // find the number of pairs where one pair fully overlaps another
-    public int getFullOverlapPairs(ArrayList<String[][]> pairs){
+    public int getFullOverlapPairs(String[][][] pairs){
         int counter = 0;
         for (String[][] currPair : pairs){
             int pair1Min = Integer.parseInt(currPair[0][0]);
@@ -26,7 +26,7 @@ public class Day_4_Camp_Cleanup implements PuzzleInterface{
 
 
     // find the number of pairs where the pairs overlap each other
-    public int getOverlapPairs(ArrayList<String[][]> pairs){
+    public int getOverlapPairs(String[][][] pairs){
         int counter = 0;
 
         for (String[][] currPair : pairs){
@@ -58,7 +58,7 @@ public class Day_4_Camp_Cleanup implements PuzzleInterface{
     // 2-8,3-7
     // 6-6,4-6
     // 2-6,4-8
-    public ArrayList<String[][]> parseInput(String fileName){
+    public String[][][] parseInput(String fileName){
         ArrayList<String[][]> completeArray = new ArrayList<>();
         try {
             File file = new File(fileName);
@@ -79,13 +79,14 @@ public class Day_4_Camp_Cleanup implements PuzzleInterface{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return completeArray;
+
+        return completeArray.toArray(String[][][]::new);
     }
 
 
     @Override
     public void printPart1(String fileName) {
-        ArrayList<String[][]> completeArray =  parseInput(fileName);
+        String[][][] completeArray =  parseInput(fileName);
         System.out.println(getFullOverlapPairs(completeArray));
 
     }
@@ -93,7 +94,7 @@ public class Day_4_Camp_Cleanup implements PuzzleInterface{
 
     @Override
     public void printPart2(String fileName) {
-        ArrayList<String[][]> completeArray =  parseInput(fileName);
+        String[][][] completeArray =  parseInput(fileName);
         System.out.println(getOverlapPairs(completeArray));
     }
 }
