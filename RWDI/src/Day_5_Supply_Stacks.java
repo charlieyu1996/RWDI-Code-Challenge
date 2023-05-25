@@ -6,6 +6,25 @@ import java.io.*;
 public class Day_5_Supply_Stacks implements PuzzleInterface{
     final int stackSize = 4;
 
+    // a class that consists of both the current stack and instructions
+    class CrateStackInstructions{
+        ArrayList<String[]> instructions = new ArrayList<>();
+        ArrayList<Deque<Character>> stacks = new ArrayList<>();
+
+        CrateStackInstructions(ArrayList<String[]> instructions, ArrayList<Deque<Character>> stacks){
+            this.instructions = instructions;
+            this.stacks = stacks;
+        }
+
+        public ArrayList<String[]> getInstructions(){
+            return instructions;
+        }
+
+        public ArrayList<Deque<Character>> getStacks(){
+            return stacks;
+        }
+    }
+
     // instructions: first index = quantity, second index = from stack number, third index = to stack number
     // this method moves crates one at a time, reversing the stack when moving
     public String topCrate(ArrayList<Deque<Character>> stacks, ArrayList<String[]> instructions){
@@ -82,7 +101,7 @@ public class Day_5_Supply_Stacks implements PuzzleInterface{
     // move 3 from 1 to 3
     // move 2 from 2 to 1
     // move 1 from 1 to 2
-    public void parseInput(String fileName, int partNum){
+    public CrateStackInstructions parseInput(String fileName){
         try {
             File file = new File(fileName);
             FileReader fr = new FileReader(file);
@@ -133,27 +152,26 @@ public class Day_5_Supply_Stacks implements PuzzleInterface{
                 }
             }
 
-            if (partNum == 1){
-                System.out.println(topCrate(stacks, instructions));
-            }else if (partNum == 2){
-                System.out.println(crateMover9001(stacks, instructions));
-            }
-
+            // Create a CrateStackInstructions to include both stacks and instructions
+            return new CrateStackInstructions(instructions, stacks);
         } catch (FileNotFoundException e) {
             System.out.println("Exception: " + fileName + " not found");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     @Override
     public void printPart1(String fileName) {
-        parseInput(fileName, 1);
+        CrateStackInstructions cst = parseInput(fileName);
+        System.out.println(topCrate(cst.getStacks(), cst.getInstructions()));
     }
 
     @Override
     public void printPart2(String fileName) {
-        parseInput(fileName, 2);
+        CrateStackInstructions cst = parseInput(fileName);
+        System.out.println(crateMover9001(cst.getStacks(), cst.getInstructions()));
     }
 }
